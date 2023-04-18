@@ -47,6 +47,7 @@ provider "azurerm" {
 # RESOURCES
 #############################################################################
 
+## note sure if resource groups were ever created by Vnet module, but they certainly aren't anymore.
 resource "azurerm_resource_group" "vnet_1" {
   name     = var.resource_group_name
   location = var.vnet_location
