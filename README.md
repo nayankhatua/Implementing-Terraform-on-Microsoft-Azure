@@ -1,3 +1,6 @@
+# Note: I am leaving this as it was because it was written but Ned1313 on the course below. However, I have updated most of his Terraform Configurations during my learning.
+# This code is definitely not 100% my own work, I am mostly keeping it here so I can refer back to it in the future.
+
 # Implementing-Terraform-on-Microsoft-Azure
 
 Welcome to Implementing Terraform on Microsoft Azure. These exercise files are meant to accompany my course on [Pluralsight](https://app.pluralsight.com/library/courses/implementing-terraform-microsoft-azure/).  The course was developed using version 0.12.10 of Terraform.  As far as I know there are no coming changes that will significantly impact the validity of these exercise files.  But I also don't control all the plug-ins, providers, and modules used by the configurations.
