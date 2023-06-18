@@ -20,8 +20,18 @@ variable "naming_prefix" {
 # PROVIDERS
 ##################################################################################
 
+terraform {
+  required_providers {
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "~> 3.0"
+    }
+  }
+}
 provider "azurerm" {
-  version = "~> 1.0"
+  features {
+    
+  }
 }
 
 ##################################################################################
@@ -82,6 +92,8 @@ data "azurerm_storage_account_sas" "state" {
     create  = true
     update  = false
     process = false
+    filter = false
+    tag = false
   }
 }
 
@@ -104,7 +116,7 @@ Add-Content -Value 'key = "terraform.tfstate"' -Path "backend-config.txt"
 Add-Content -Value 'sas_token = "${data.azurerm_storage_account_sas.state.sas}"' -Path "backend-config.txt"
 EOT
 
-    interpreter = ["PowerShell", "-Command"]
+    interpreter = ["pwsh", "-Command"]
   }
 }
 
@@ -122,4 +134,5 @@ output "resource_group_name" {
 
 output "shared_access_signature" {
   value = data.azurerm_storage_account_sas.state.sas
+  sensitive = true
 }

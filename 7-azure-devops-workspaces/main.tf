@@ -26,6 +26,11 @@ variable "subnet_names" {
   default = ["web", "database", "app"]
 }
 
+variable "use_for_each" {
+  type    = bool
+  default = true
+}
+
 locals {
   full_rg_name = "${terraform.workspace}-${var.resource_group_name}"
 }
@@ -34,8 +39,23 @@ locals {
 # PROVIDERS
 #############################################################################
 
+terraform {
+  required_providers {
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "~> 3.0"
+
+    }
+    azuread = {
+      source = "hashicorp/azuread"
+    }
+  }
+}
+
 provider "azurerm" {
-  version = "~> 1.0"
+  features {
+    
+  }
 }
 
 #############################################################################
@@ -65,12 +85,13 @@ resource "azurerm_resource_group" "main" {
 module "vnet-main" {
   source              = "Azure/vnet/azurerm"
   resource_group_name = azurerm_resource_group.main.name
-  location            = var.location
+  vnet_location            = var.location
   vnet_name           = azurerm_resource_group.main.name
-  address_space       = var.vnet_cidr_range[terraform.workspace]
+  address_space       = [var.vnet_cidr_range[terraform.workspace]]
   subnet_prefixes     = data.template_file.subnet_prefixes[*].rendered
   subnet_names        = var.subnet_names
   nsg_ids             = {}
+  use_for_each = var.use_for_each
 
   tags = {
     environment = terraform.workspace
